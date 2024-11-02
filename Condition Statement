@@ -1,0 +1,97 @@
+In Angular, conditional statements are commonly used to control the rendering of components and templates based on certain conditions. Here are the main ways to implement conditionals in Angular:
+
+### 1. **ngIf Directive**
+
+The `ngIf` directive is used to conditionally include or exclude elements in the DOM. If the condition evaluates to `true`, the element is added; if `false`, it's removed.
+
+#### Syntax:
+```html
+<div *ngIf="condition">
+  This will be shown if the condition is true.
+</div>
+```
+
+#### Example:
+```html
+<div *ngIf="isLoggedIn">
+  Welcome back, user!
+</div>
+```
+
+You can also use `ngIf` with `else`:
+```html
+<div *ngIf="isLoggedIn; else loginTemplate">
+  Welcome back, user!
+</div>
+<ng-template #loginTemplate>
+  <div>Please log in.</div>
+</ng-template>
+```
+
+### 2. **ngSwitch Directive**
+
+The `ngSwitch` directive is useful for switching between multiple views based on a single expression. It works like a switch-case statement.
+
+#### Syntax:
+```html
+<div [ngSwitch]="expression">
+  <div *ngSwitchCase="case1">Case 1</div>
+  <div *ngSwitchCase="case2">Case 2</div>
+  <div *ngSwitchDefault>Default case</div>
+</div>
+```
+
+#### Example:
+```html
+<div [ngSwitch]="userRole">
+  <div *ngSwitchCase="'admin'">Admin Dashboard</div>
+  <div *ngSwitchCase="'user'">User Dashboard</div>
+  <div *ngSwitchDefault>Guest View</div>
+</div>
+```
+
+### 3. **Ternary Operator**
+
+For inline conditionals, you can use the ternary operator in your template expressions.
+
+#### Syntax:
+```html
+<div>
+  {{ condition ? 'True Value' : 'False Value' }}
+</div>
+```
+
+#### Example:
+```html
+<p>
+  {{ isLoggedIn ? 'Logged in' : 'Logged out' }}
+</p>
+```
+
+### 4. **Using Functions in Templates**
+
+Although not always recommended for performance reasons, you can use functions in your component to determine conditions.
+
+#### Example:
+```html
+<div *ngIf="isUserActive()">
+  User is active.
+</div>
+```
+
+In the component:
+```typescript
+isUserActive() {
+  return this.user && this.user.isActive;
+}
+```
+
+### Best Practices
+
+- **Performance**: Be cautious about using functions in templates, as they can be called frequently, affecting performance.
+- **Clarity**: Keep your conditions simple and understandable. Complex logic can be moved to the component class for better readability.
+- **Avoiding Complex Logic in Templates**: Use properties or methods to encapsulate complex logic instead of putting it directly in the template.
+
+### Conclusion
+
+Conditional rendering in Angular is powerful and flexible, allowing you to create dynamic and responsive UIs. By using `ngIf`, `ngSwitch`, ternary operators, and managing logic effectively, you can ensure a smooth user experience tailored to the application's state.
