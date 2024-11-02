@@ -1,0 +1,108 @@
+Property binding in Angular is a powerful feature that allows you to bind data from your component class to the properties of HTML elements in your template. This is an essential aspect of Angular's data binding system, enabling a dynamic interaction between the UI and the component logic.
+
+### What is Property Binding?
+
+Property binding is a one-way data binding technique that allows you to set a property of a DOM element to a value from your component. It updates the element's property whenever the component's property changes. This means that if the value of the property in the component changes, the corresponding property in the view will automatically update.
+
+### Syntax
+
+Property binding is denoted by square brackets around the property name in the HTML element.
+
+```html
+<element [property]="expression"></element>
+```
+
+### Example
+
+Let's consider a simple example to illustrate property binding.
+
+#### Step 1: Create a Component
+
+First, create a component that holds some properties.
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css']
+})
+export class ExampleComponent {
+  imageUrl: string = 'https://example.com/image.png';
+  isVisible: boolean = true;
+  buttonText: string = 'Hide Image';
+
+  toggleImage() {
+    this.isVisible = !this.isVisible;
+    this.buttonText = this.isVisible ? 'Hide Image' : 'Show Image';
+  }
+}
+```
+
+#### Step 2: Create the Template
+
+Now, let's create a template where we will use property binding.
+
+```html
+<div>
+  <button (click)="toggleImage()">{{ buttonText }}</button>
+  <img *ngIf="isVisible" [src]="imageUrl" alt="Example Image">
+</div>
+```
+
+### Explanation of the Example
+
+1. **Binding the `src` property**: 
+   - The `<img>` element uses property binding to set the `src` attribute to the `imageUrl` property from the component. 
+   - If `imageUrl` changes in the component, the image displayed will automatically update.
+
+2. **Conditional Rendering with `*ngIf`**: 
+   - The `*ngIf` directive is used to conditionally include or exclude the `<img>` tag based on the `isVisible` property. If `isVisible` is `true`, the image is shown; if `false`, it is hidden.
+
+3. **Button Text Update**: 
+   - The button text is updated dynamically using interpolation `{{ buttonText }}`, and it reflects the state of `isVisible` whenever the button is clicked.
+
+### Other Use Cases for Property Binding
+
+- **Binding to Element Properties**:
+  You can bind various properties of HTML elements, such as:
+  - `[disabled]`: Disables a button based on a condition.
+  - `[class]`: Dynamically applies a CSS class.
+  - `[style]`: Applies inline styles.
+
+**Example:**
+```html
+<button [disabled]="isDisabled">Submit</button>
+<div [class.active]="isActive">Content</div>
+<p [style.color]="textColor">This is colored text.</p>
+```
+
+### Binding to Custom Component Properties
+
+You can also bind properties in custom components. For example, if you have a child component that accepts inputs:
+
+```typescript
+@Component({
+  selector: 'app-child',
+  template: `<p>{{ childMessage }}</p>`
+})
+export class ChildComponent {
+  @Input() childMessage: string;
+}
+```
+
+You can bind to the `childMessage` property from the parent component:
+
+```html
+<app-child [childMessage]="parentMessage"></app-child>
+```
+
+### Summary
+
+- Property binding is a one-way data binding technique used in Angular to bind data from a component to the properties of HTML elements.
+- It enables dynamic updates to the UI based on changes in the component's properties.
+- Property binding is achieved using square brackets `[]` around the property name in the template.
+- It can be used with standard DOM properties as well as custom component properties.
+
+By mastering property binding, you can create responsive and interactive Angular applications that provide a seamless user experience.
