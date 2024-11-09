@@ -1,0 +1,125 @@
+In Angular, you can transfer data between parent and child components in two main ways:
+
+1. **From Parent to Child**: Using `@Input()`
+2. **From Child to Parent**: Using `@Output()` and `EventEmitter`
+
+Let’s break down both scenarios:
+
+### 1. **Parent to Child (using `@Input()`)**
+
+In this case, the parent component will pass data to the child component via a property binding.
+
+#### Example:
+
+##### Parent Component (parent.component.ts)
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <h1>Parent Component</h1>
+    <app-child [childData]="parentData"></app-child>
+  `
+})
+export class ParentComponent {
+  parentData = "Data from Parent";
+}
+```
+
+##### Parent Component Template (parent.component.html)
+
+```html
+<h1>Parent Component</h1>
+<app-child [childData]="parentData"></app-child>
+```
+
+##### Child Component (child.component.ts)
+
+```typescript
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+    <h2>Child Component</h2>
+    <p>{{ childData }}</p>
+  `
+})
+export class ChildComponent {
+  @Input() childData: string = ''; // The data passed from parent
+}
+```
+
+In this example:
+- The parent component has a property `parentData`.
+- The `parentData` is passed to the `childData` input property of the child component using Angular's property binding `[]`.
+
+### 2. **Child to Parent (using `@Output()` and `EventEmitter`)**
+
+In this case, the child component sends data to the parent component by emitting an event.
+
+#### Example:
+
+##### Parent Component (parent.component.ts)
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <h1>Parent Component</h1>
+    <app-child (dataFromChild)="receiveData($event)"></app-child>
+    <p>Data received from child: {{ receivedData }}</p>
+  `
+})
+export class ParentComponent {
+  receivedData: string = '';
+
+  receiveData(data: string) {
+    this.receivedData = data;
+  }
+}
+```
+
+##### Parent Component Template (parent.component.html)
+
+```html
+<h1>Parent Component</h1>
+<app-child (dataFromChild)="receiveData($event)"></app-child>
+<p>Data received from child: {{ receivedData }}</p>
+```
+
+##### Child Component (child.component.ts)
+
+```typescript
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+    <h2>Child Component</h2>
+    <button (click)="sendDataToParent()">Send Data to Parent</button>
+  `
+})
+export class ChildComponent {
+  @Output() dataFromChild = new EventEmitter<string>();
+
+  sendDataToParent() {
+    this.dataFromChild.emit('Data from Child');
+  }
+}
+```
+
+In this example:
+- The child component emits an event using `EventEmitter` to send data to the parent.
+- The parent listens for the `dataFromChild` event and handles the emitted data in the `receiveData()` method.
+
+### Summary of the Flow:
+
+- **Parent to Child**: Use `@Input()` to pass data from parent to child.
+- **Child to Parent**: Use `@Output()` with `EventEmitter` to send data from child to parent.
+
+These two methods are the basic ways of passing data between parent and child components in Angular. Let me know if you'd like more details or have any further questions!
