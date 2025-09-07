@@ -1,0 +1,62 @@
+<div class="container mt-3">
+  <h2>Create Matrix</h2>
+
+  <form [formGroup]="matrixForm" (ngSubmit)="onSubmit()">
+
+    <!-- Action buttons -->
+    <div class="d-flex mb-2">
+      <button type="button" class="btn btn-success me-2" (click)="addColumn()">+ Add Column</button>
+      <button type="button" class="btn btn-danger" (click)="deleteSelectedColumns()">- Delete Column</button>
+    </div>
+
+    <!-- Columns -->
+    <div class="table-responsive border p-2">
+      <div class="d-flex" formArrayName="columns">
+        <div class="p-2 border" *ngFor="let col of columns.controls; let i = index" [formGroupName]="i" style="min-width: 200px;">
+
+          <!-- Checkbox -->
+          <div>
+            <input type="checkbox" formControlName="selected"> Select
+          </div>
+
+          <!-- Column Header -->
+          <div class="mb-2">
+            <input type="text" class="form-control" formControlName="header" placeholder="Column Header">
+          </div>
+
+          <!-- Column Type -->
+          <div class="mb-2">
+            <select class="form-select" formControlName="columnType">
+              <option *ngFor="let type of columnTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+
+          <!-- Filled By -->
+          <div class="mb-2">
+            <select class="form-select" formControlName="filledBy">
+              <option *ngFor="let f of filledByOptions" [value]="f">{{ f }}</option>
+            </select>
+          </div>
+
+          <!-- Data Type -->
+          <div class="mb-2">
+            <select class="form-select" formControlName="dataType">
+              <option *ngFor="let d of dataTypes" [value]="d">{{ d }}</option>
+            </select>
+          </div>
+
+          <!-- Display -->
+          <div class="mb-2">
+            <input type="text" class="form-control" formControlName="display" placeholder="Display">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="mt-3">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
